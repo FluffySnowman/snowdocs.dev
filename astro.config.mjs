@@ -1,14 +1,16 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import tailwind from "@astrojs/tailwind";
+import mdx from "@astrojs/mdx";
+import expressiveCode from "astro-expressive-code";
+
+import react from "@astrojs/react";
 
 // https://astro.build/config
 export default defineConfig({
   integrations: [starlight({
     title: 'SnowDocs',
-    customCss: [
-      './src/styles/custom.css',
-    ],
+    customCss: ['./src/styles/custom.css'],
     social: {
       github: 'https://github.com/fluffysnowman'
     },
@@ -31,5 +33,5 @@ export default defineConfig({
         directory: 'docker'
       }
     }]
-  }), tailwind()]
+  }), tailwind(), expressiveCode(), mdx(), react()]
 });

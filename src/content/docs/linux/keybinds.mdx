@@ -3,6 +3,7 @@ title: Useful Keybinds
 description: Lists of useful Keybinds
 ---
 
+
 (copy pasting everything from the old site)
 
 ## The Terminal
@@ -72,11 +73,13 @@ since its the opposite of `cd`.
 
 Watch the video below to see it in action. (media not working)
 
-<!-- <video src="../videos/dc_alias_zshrc.mp4" mini-player="false" preview-src="25Oct2023_0119hrs.png" /> -->
 
 ### Vim Navigation Aliases
 
-so on. A simple fix for this is using `fzf` in the neovim/vim command to open a file
+Sometimes you wanna open a file in vim/neovim, but you don't want to waste your
+time looking around with `cd` and so on. A simple fix for this is using `fzf`
+in the neovim/vim command to open a file
+
 
 ```bash title="terminal"
 nvim $(fzf)
@@ -97,4 +100,7 @@ alias ovim='nvim $(fzf)'
 
 Now you can open up a file in vim without going through the pain of navigating
 the filesystem with cd.
+
+
+tests
 
