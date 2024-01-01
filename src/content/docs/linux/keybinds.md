@@ -13,7 +13,7 @@ it.
 Regardless, here are some useful keybinds which will help you out if you're a
 keyboard ninja and don't use the arrow keys (or even enter and backspace).
 
-## CLI Shortcuts/Keybinds
+### CLI Shortcuts/Keybinds
 
 Here's a list of shortcuts that you can use in the terminal to speed up your
 work
@@ -52,7 +52,6 @@ the same thing as pressing enter.
 > weirdest errors 🗿)
 :::
 
-## Useful Configs
 
 ### Easy Navigation
 
@@ -71,7 +70,7 @@ Add this to your `~/.zshrc` and watch the magic happen. I recommend that you
 change the alias `dc` to something else that you'll remember. I named it `dc`
 since its the opposite of `cd`.
 
-Watch the video below to see it in action.
+Watch the video below to see it in action. (media not working)
 
 <!-- <video src="../videos/dc_alias_zshrc.mp4" mini-player="false" preview-src="25Oct2023_0119hrs.png" /> -->
 
