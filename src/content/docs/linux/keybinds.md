@@ -24,15 +24,14 @@ Here's a list of shortcuts that you can use in the terminal to speed up your wor
 | `Ctrl + x e`     | Opens command in your default text editor (vi/nano etc)       |
 
 
-<tip>
-   <p>
-      <code lang="bash">Ctrl + x e</code> opens up your default editor (<code>vi/nano</code>) through which you can edit
-      the command you are typing.
-      This is really useful when you have a long command, and you don't want to keep navigating around the terminal with
-      the
-      arrow keys etc.
-   </p>
-</tip>
+
+   
+`Ctrl + x e` opens up your default editor (`vi/nano`) through which you can
+edit the command you are typing. This is really useful when you have a long
+command, and you don't want to keep navigating around the terminal with the
+arrow keys etc.
+
+
 
 
 ## Useful Configs
