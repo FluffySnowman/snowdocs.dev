@@ -1,0 +1,53 @@
+---
+
+---
+
+<html>
+<button search-button-keyboard-event>Search</button>
+
+<script>
+function handleSearchClick() {
+  console.log("sending / keyboard event");
+  window.dispatchEvent(
+    new KeyboardEvent("keydown", {
+      key: "/",
+    }),
+  );
+}
+
+// document.getElementById("searchButton").addEventListener("click", handleSearchClick);
+
+// const searchButtonElement = document.querySelector("#searchButton");
+
+const buttons = document.querySelectorAll('[search-button-keyboard-event]');
+
+buttons.forEach((button) => {
+  button.addEventListener('click', () => {
+    console.log("hello there");
+     window.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key: "/",
+      }),
+    );
+
+  })
+})
+
+// searchButtonElement.addEventListener("click", () => {
+//   console.log("is this working");
+//   // alert("nice");
+
+//   window.dispatchEvent(
+//     new KeyboardEvent("keydown", {
+//       key: "/",
+//     }),
+//   )
+
+//   console.log("did it work?");
+
+
+// });
+
+</script>
+
+</html>

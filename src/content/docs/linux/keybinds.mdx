@@ -71,7 +71,20 @@ Add this to your `~/.zshrc` and watch the magic happen. I recommend that you
 change the alias `dc` to something else that you'll remember. I named it `dc`
 since its the opposite of `cd`.
 
-Watch the video below to see it in action. (media not working)
+Another similar command is 
+
+```bash
+cd $(dirname $(echo $PWD/$(fzf)))
+
+# echo $PWD prints the current directory 
+# fzf gets the relative path of the file you want 
+# and dirname removes the file name so it navigates
+# to the directory of that file
+```
+
+which does the same thing but doesn't ignore any folders.
+
+Watch the video below to see it in action. (media not working. will fix later)
 
 
 ### Vim Navigation Aliases
