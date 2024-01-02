@@ -7,8 +7,8 @@ hero:
   # image:
   #   file: ../../assets/houston.webp
   actions:
-    - text: Linux
-      link: /linux/commands/
+    - text: Explore
+      link: /welcome
       icon: right-arrow
       variant: primary
     - text: Contribute
@@ -16,13 +16,40 @@ hero:
       icon: external
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Icon, LinkCard, Card, CardGrid } from '@astrojs/starlight/components';
 
-## Next steps
+{/*
+import TriggerSearch from '../../utils/TriggerSearch.astro';
+<TriggerSearch />
+*/}
+
+
+
+## Start Exploring
 
 <CardGrid stagger>
-	<Card title="Read the docs" icon="open-book">
-		Linux [read](/linux/commands)
+
+  <Card icon="laptop" title="System Administration">
+    Practical guides to system Administration with real life examples
+    <LinkCard title="Learn More" href="/sysadmin/intro" />
+  </Card>
+
+  <Card icon="forward-slash" title="Linux" href="/linux/commands">
+    Things you may not know about Linux
+    <LinkCard title="Explore" href="/linux/commands" />
+  </Card>
+	<Card title="And alot more" icon="open-book">
+    Explore all topics or Search
+    <LinkCard title="Get Started" href="/sysadmin/intro" />
 	</Card>
+
+  {/* 
+    <Card icon="pencil" title="Productivity" href="/productivity/shortcuts.md">
+    <LinkCard title="Productivity" description="Boost your Productivity"
+      href="/productivity/shortcuts.md"/>
+    </Card>
+  */}
+
 </CardGrid>
+
 

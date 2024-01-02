@@ -120,3 +120,10 @@ and now add this line with the path to the script to mirror the files.
 This will run the script every hour of every day forever. Now save the file
 (with vim it would be `:wq`) and it should work.
 
+## Navigation
+
+Check out [keybinds](/linux/keybinds#easy-navigation) for a cool and fast way
+to `cd` around the filesystem.
+
+
+
