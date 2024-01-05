@@ -3,7 +3,10 @@
 ---
 
 <html>
-<button search-button-keyboard-event>Search</button>
+<body>
+<!-- <button search-button-keyboard-event>Search</button> -->
+<main>
+<button id="searchButton">search</button>
 
 <script>
 function handleSearchClick() {
@@ -15,39 +18,40 @@ function handleSearchClick() {
   );
 }
 
-// document.getElementById("searchButton").addEventListener("click", handleSearchClick);
+document.getElementById("searchButton").addEventListener("click", handleSearchClick);
 
-// const searchButtonElement = document.querySelector("#searchButton");
+const searchButtonElement = document.querySelector("#searchButton");
 
-const buttons = document.querySelectorAll('[search-button-keyboard-event]');
+// const buttons = document.querySelectorAll('[search-button-keyboard-event]');
 
-buttons.forEach((button) => {
-  button.addEventListener('click', () => {
-    console.log("hello there");
-     window.dispatchEvent(
-      new KeyboardEvent("keydown", {
-        key: "/",
-      }),
-    );
+// buttons.forEach((button) => {
+//   button.addEventListener('click', () => {
+//     console.log("hello there");
+//      window.dispatchEvent(
+//       new KeyboardEvent("keydown", {
+//         key: "/",
+//       }),
+//     );
 
-  })
-})
+//   })
+// })
 
-// searchButtonElement.addEventListener("click", () => {
-//   console.log("is this working");
-//   // alert("nice");
+searchButtonElement.addEventListener("click", () => {
+  console.log("is this working");
+  // alert("nice");
 
-//   window.dispatchEvent(
-//     new KeyboardEvent("keydown", {
-//       key: "/",
-//     }),
-//   )
+  window.dispatchEvent(
+    new KeyboardEvent("keydown", {
+      key: "/",
+    }),
+  )
 
-//   console.log("did it work?");
+  console.log("did it work?");
 
-
-// });
+});
 
 </script>
+</main>
 
+</body>
 </html>

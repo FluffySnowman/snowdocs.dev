@@ -43,6 +43,12 @@ export default defineConfig({
             directory: "docker",
           },
         },
+        {
+          label: "Windows",
+          autogenerate: {
+            directory: "windows",
+          },
+        },
       ],
     }),
     tailwind(),
