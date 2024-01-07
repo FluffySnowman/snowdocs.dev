@@ -10,6 +10,8 @@ export default defineConfig({
       customCss: ["./src/styles/custom.css"],
       social: {
         github: "https://github.com/fluffysnowman",
+        telegram: "https://t.me/fluffysnowman",
+        discord: "https://discord.com/users/295808050416320513"
       },
       sidebar: [
         {

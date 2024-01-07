@@ -1,0 +1,150 @@
+---
+title: Networking
+descripton: Basic Networking
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+(copy pasting everything from the old site)
+
+## Installation
+
+First we'll start with basic network security testing and mapping. Common tools
+used for this are:
+
+- `aircrack-ng`
+- `wireshark`
+- `nmap`
+- `airgeddon`
+- `etherape`
+- `mtr`
+- `tcpdump`
+- `traceroute`
+
+Its recommended that you use a debian-based distro such as 
+<a href="https://www.kali.org/" target="_blank">Kali Linux</a> 
+Or 
+<a href="https://www.parrotsec.org/" target="_blank">Parrot OS</a> 
+or if you have the balls to install a 20+gb ISO... 
+<a href="https://www.blackarch.org/" target="_blank">BlackArch</a> 
+
+> Or <a href="https://www.backtrack-linux.org/" target="_blank">BackTrack</a> 
+if you're feeling nostalgic 😔
+
+To install these tools on your computer. You can use the advanced package tool
+`apt` to install these tools or If you're on arch (btw), `pacman` has all of
+these on the aur.
+
+<Tabs>
+
+  <TabItem label="Debian">
+
+  ```bash title="bash" "aircrack-ng" "nmap" "wireshark-qt"
+  sudo apt-get update # update 
+  sudo apt-get install aircrack-ng wireshark-qt nmap etherape mtr tcpdump traceroute net-tools
+  ```
+
+  </TabItem>
+
+  <TabItem label="Arch">
+
+  ```bash title="bash" "aircrack-ng" "nmap" "wireshark-qt"
+  sudo pacman -Syu # update 
+  sudo pacman -S aircrack-ng wireshark-qt nmap etherape mtr tcpdump traceroute net-tools
+  ```
+  </TabItem>
+
+  <TabItem label="Red Hat (RHEL)">
+
+  ```css title=" ❔ " 
+  why are you doing this to yourself 
+  ```
+  </TabItem>
+
+</Tabs>
+
+
+## WiFi Attacks with Aircrack-ng
+
+So... Now you decide you wanna test your wireless network's security. Lets jump
+right into it! Tools which we'll be using for this are the `aircrack-ng` suite.
+These can be used to put your networking device into monitor mode, scan for
+wireless networks around you and finally.. crack them. Let's start this by
+firing up a temrinal.
+
+You will need to be a superuser/admin to use these commands so make sure you
+have a root terminal open or use `su root` or `sudo su` to do so.
+
+```bash title="Bash (root)"
+ifconfig
+```
+
+This command will show all your wireless and wired interfaces for networks that
+your computer has access to. You will have to select a wireless interface. The
+default value for a wireless interface on linux usually starts with wl (
+Example: wlan0 (standing for `Wireless Local Area Network #0`).
+
+:::note
+you will need to make sure that your wifi adapter allows 'monitor mode'
+to work with the next tool. 
+:::
+
+Once you have found your wireless adapter name, you need to put it in monitor
+mode to look for (monitor) networks. This is done by running the following
+command:
+
+
+```bash title="Bash (root)"
+airmon-ng check kill
+airmon-ng start <interface name>
+
+#Example: 
+airmon-ng check kill
+airmon-ng start wlan0
+```
+
+This will start the adapter in monitor mode. 
+
+So now we have our wireless card in monitor mode. Time to scan for some
+networks! The command `airodump-ng` will scan for wireless networks around you.
+But you will have to specify a wireless network interface for it to scan with.
+
+```bash title="Bash (root)"
+airodump-ng <interface name>
+#Example:
+airodump-ng wlan0
+```
+
+This basically lists all the wireless networks' MAC ID's (BSSID) and their
+channel. It also lists the BSSIDs of the devices connected to it (station).
+
+### Deauthentication
+
+Now what you gotta do to get a .cap file (caplet) is create a handshake between
+a device joining the network and the network itself. To do this you have to
+kick a device off the network using the STATION MAC ID (station). and the BSSID
+of the network shown next to it (BSSID). You will also have to write this data
+to a .cap file for cracking later. Note the BSSID of the router, the channel
+that its on and the STATION MAC ID to kick off the network. Also note down the
+name of the file you want to save the .cap to. Now you will have to run
+aireplay-ng while airodump-ng is running as you have to capture a handshake-
+not just kick someone off the wifi.
+
+Follow these steps and replace the respective values in brackets with the
+values you got from the airodump-ng output.
+
+Window 1:
+
+```bash
+airodump-ng --bssid <ACCESS POINT BSSID> -c <CHANNEL> -w <FILENAME> <INTERFACE NAME>
+```
+
+Window 2:
+
+```bash
+aireplay-ng -0 0 -a <ACCESS POINT BSSID> -c <STATION MAC ID> <INTERFACE NAME>
+```
+
+*remind me to find the old content of this page since the old blog didn't have
+all of the text either*
+
