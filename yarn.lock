@@ -4492,6 +4492,11 @@ typescript-auto-import-cache@^0.3.0:
   dependencies:
     semver "^7.3.8"
 
+typescript-language-server@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/typescript-language-server/-/typescript-language-server-4.2.0.tgz#b61b755c4b45a4868dfebf4ac57b8b6af9e7f2ca"
+  integrity sha512-1yKDqKeWLTQkN4mN+CT84aBr7ckp6sNVb8DZg+eXl0TDl14edn6Yh1wPqPA1rQ4AGVJc02fYbXTFsklaVYy4Uw==
+
 typescript@^5.3.3:
   version "5.3.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.3.3.tgz#b3ce6ba258e72e6305ba66f5c9b452aaee3ffe37"
