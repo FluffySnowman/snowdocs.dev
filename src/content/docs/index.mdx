@@ -28,21 +28,19 @@ import { Icon, LinkCard, Card, CardGrid } from '@astrojs/starlight/components';
     <LinkCard title="Learn More" href="/sysadmin/intro" />
   </Card>
 
-  <Card icon="forward-slash" title="Linux" href="/linux/commands">
+  <Card icon="forward-slash" title="Linux">
     Things you may not know about Linux
     <LinkCard title="Explore" href="/linux/commands" />
   </Card>
 	<Card title="And alot more" icon="open-book">
     Explore all topics or Search
-    <LinkCard title="Get Started" href="/sysadmin/intro" />
+    <LinkCard title="Get Started" href="/welcome" />
 	</Card>
 
-  {/* 
-    <Card icon="pencil" title="Productivity" href="/productivity/shortcuts.md">
-    <LinkCard title="Productivity" description="Boost your Productivity"
-      href="/productivity/shortcuts.md"/>
-    </Card>
-  */}
+  <Card icon="pencil" title="Productivity">
+    Boost your Productivity
+    <LinkCard title="Go Blazingly Fast" href="/productivity/intro"/>
+  </Card>
 
 </CardGrid>
 

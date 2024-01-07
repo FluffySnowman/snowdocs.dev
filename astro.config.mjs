@@ -51,6 +51,12 @@ export default defineConfig({
             directory: "windows",
           },
         },
+        {
+          label: "Productivity",
+          autogenerate: {
+            directory: "productivity"
+          },
+        },
       ],
     }),
     tailwind(),
