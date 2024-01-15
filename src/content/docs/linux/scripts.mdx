@@ -1,0 +1,84 @@
+---
+title: Scripts
+description: Scripts that you need
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+Here's my personal selection of scripts that you **need**. 
+
+## Recursive Git Mirrors
+
+Mirroring git repositories is something we all need to do from time to time.
+And if not- you're probably too lazy to do it so you don't (you should always
+keep backups)
+
+If you don't know how to change the push url of a git repository then <a
+href="/linux/commands/#git-repository-mirroring" target="_blank">see this</a>
+
+Here's a script to mirror every repository in the current folder recursively
+and in parallel (so you don't have to wait for each one to finish for the other
+to start).
+
+<Tabs>
+
+  
+  <TabItem label="Parallel">
+
+  ```bash title="bash"
+
+  cd /home/fluffy/personal/mirrors || exit
+
+  mirror_repo() {
+    repo="${1%/.git}"  
+    echo "Mirroring $repo..."
+    cd "$repo" || exit
+    git fetch -p origin
+    git remote show origin  
+    git push --mirror
+    cd -
+  }
+
+  export -f mirror_repo  
+
+  find . -type d -name '*.git' -print0 | parallel -0 mirror_repo
+  ```
+
+  </TabItem>
+
+  <TabItem label="Serial (slow)">
+
+  ```bash title="bash" 
+
+  cd /home/fluffy/personal/mirrors || exit
+
+  find . -type d -name '*.git' -exec bash -c '
+    repo="${1%/.git}"  
+    echo "Mirroring $repo..."
+    cd "$repo" || exit
+    git fetch -p origin
+    git remote show origin  
+    git push --mirror
+    cd -' _ {} \;
+  ```
+
+  </TabItem>
+
+
+</Tabs>
+
+Save the script to a `.sh` file and thes do a `bash filename.sh` and it 
+should work.
+
+This script goes through every folder is the `/home/fluffy/mirrors` directory
+after which it checks for a `.git` folder, then fetches the updates from the
+previous origin (`fetch -p`), then prints out the new origin ( <a
+href="/linux/commands/#git-repository-mirroring" target="_blank">learn how to
+set it </a>) and then finally pushes it (`--mirror`).
+
+
+:::note 
+You will need to have `parallel` installed on your system to run these
+in parallel. Install `parallel` with your package manager (`apt`, `pacman` etc)
+:::
+
