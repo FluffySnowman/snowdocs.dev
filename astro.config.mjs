@@ -40,6 +40,12 @@ export default defineConfig({
           },
         },
         {
+          label: "Snippets",
+          autogenerate: {
+            directory: "s",
+          },
+        },
+        {
           label: "Docker",
           autogenerate: {
             directory: "docker",
