@@ -1,0 +1,128 @@
+---
+title: Make
+description: God Tier Makefile Snippets
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+This page has many god tier gigachad snippets for makefiles that you definitely
+need in your workflow.
+
+## Automatic Help list generation
+
+This snippet below automatically generates a help list for your makefile using
+comments above each target as the description.
+
+```makefile title="Makefile"
+# shows this help list
+help:
+	@printf '\tMakefile targets\n\n'
+	@awk ' \
+		function trim(s) { \
+			sub(/^[ \t]+/, "", s); \
+			sub(/[ \t]+$$/, "", s); \
+			return s; \
+		} \
+		/^$$/ { help = ""; next } \
+		/^#/ { \
+			help = (help ? help " " trim(substr($$0,2)) : trim(substr($$0,2))); \
+			next; \
+		} \
+		/^[^ \t]+:/ { \
+			target = $$1; sub(/:$$/, "", target); \
+			if (help != "") { \
+				printf "  %-15s %s\n", target, help; \
+			} \
+			help = ""; \
+		}' $(MAKEFILE_LIST)
+	@printf "\n"
+```
+
+So now this can be used in your makefile like so
+
+```makefile title="Makefile"
+# compiles the c program 
+compile:
+    gcc -o main main.c
+```
+
+and using `make help` will automatically generate the help list for you.
+
+## Python venv and CBOR data parsing
+
+This snippet below creates a python venv and then creates aliases to allow
+decoding and encoding data for a http REST api using cbor in the
+request/response body using python.
+
+This is great on arch linux cos arch doens't like pip or anything python
+related for some reason.
+
+```makefile title="Makefile"
+
+VENV_DIR := cbor-env
+PYTHON   := python3
+PIP      := $(VENV_DIR)/bin/pip
+
+.PHONY: setup activate help cbor-env
+
+# sets up python venv for cbor debugging
+setup:
+	$(PYTHON) -m venv $(VENV_DIR)
+	$(PIP) install cbor2 jq
+
+# activate python venv with `source <(make activate)`
+activate:
+	@printf '\
+# >> Activate CBOR venv and helpers\n\
+source "%s/bin/activate"\n\
+# cbor_get <url>: GET CBOR and pretty-print JSON\n\
+cbor_get() {\n\
+  curl -s -H "Accept: application/cbor" "$$1" \\\n\
+    | python3 -c '\''import sys, json, cbor2; obj = cbor2.load(sys.stdin.buffer); print(json.dumps(obj, indent=2))'\''\n\
+}\n\
+# cbor_post <url> <json>: send JSON→CBOR, POST, decode CBOR→JSON\n\
+cbor_post() {\n\
+  printf "%%s" "$$2" \\\n\
+    | python3 -c '\''import sys, json, cbor2; obj = json.loads(sys.stdin.read()); sys.stdout.buffer.write(cbor2.dumps(obj))'\'' \\\n\
+    | curl -s -X POST \\\n\
+        -H "Content-Type: application/cbor" \\\n\
+        -H "Accept: application/cbor" \\\n\
+        --data-binary @- "$$1" \\\n\
+    | python3 -c '\''import sys, json, cbor2; obj = cbor2.load(sys.stdin.buffer); print(json.dumps(obj, indent=2))'\''\n\
+}\n' "$(VENV_DIR)"
+
+```
+
+Now this can be used like so (zsh)
+
+Sets up environment
+
+```bash
+make setup
+```
+
+Activates environment
+
+```bash
+source <(make activate)
+```
+
+And now the cbor functions can be used: 
+
+```bash 
+cbor_get http://localhost:8080/status
+```
+
+The `'{}'` is where the json body goes.
+
+```bash 
+cbor_post http://localhost:8080/register '{}'
+```
+
+The results of both functions can be piped to `jq`.
+
+
+:::note 
+Some note here
+:::
+
