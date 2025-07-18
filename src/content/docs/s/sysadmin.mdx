@@ -1,0 +1,117 @@
+---
+title: SysAdmin
+description: Useful sysadmin/shell and related snippetts
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+This page has useful snippets for sysadmin tasks, shell scripting, and other
+related things used frequently(and unfrequently) for things like managing
+servers, firewalls, networking, monitoring and so on.
+
+## CPU Usage w/ no external tools
+
+This snippet(s) gets the CPU usage of the system using `/proc/stat` over the
+course of 0.5 seconds. this can be changed to 1 second for a more accurate
+reading.
+
+```bash title="CPU Usage"
+prev_idle=$(awk '/^cpu /{print $5}' /proc/stat)
+prev_total=$(awk '/^cpu /{s=0; for(i=2;i<=NF;i++) s+=$i; print s}' /proc/stat)
+
+sleep 0.5
+
+idle=$(awk '/^cpu /{print $5}' /proc/stat)
+total=$(awk '/^cpu /{s=0; for(i=2;i<=NF;i++) s+=$i; print s}' /proc/stat)
+
+diff_idle=$((idle - prev_idle))
+diff_total=$((total - prev_total))
+
+usage=$(echo "scale=1; 100 * ($diff_total - $diff_idle) / $diff_total" | bc -l)
+echo "$usage"
+```
+
+Same command but in a single line: 
+
+```bash title="CPU Usage One-liner" 
+prev_idle=$(awk '/^cpu /{print $5}' /proc/stat); prev_total=$(awk '/^cpu /{s=0; for(i=2;i<=NF;i++) s+=$i; print s}' /proc/stat); sleep 0.5; idle=$(awk '/^cpu /{print $5}' /proc/stat); total=$(awk '/^cpu /{s=0; for(i=2;i<=NF;i++) s+=$i; print s}' /proc/stat); diff_idle=$((idle - prev_idle)); diff_total=$((total - prev_total)); usage=$(echo "scale=1; 100 * ($diff_total - $diff_idle) / $diff_total" | bc -l); echo "$usage"
+```
+
+### Every Second
+
+
+```bash title="CPU Usage Every Second"
+while true
+do
+    prev_idle=$(awk '/^cpu /{print $5}' /proc/stat)
+    prev_total=$(awk '/^cpu /{s=0; for(i=2;i<=NF;i++) s+=$i; print s}' /proc/stat)
+
+    sleep 0.5
+
+    idle=$(awk '/^cpu /{print $5}' /proc/stat)
+    total=$(awk '/^cpu /{s=0; for(i=2;i<=NF;i++) s+=$i; print s}' /proc/stat)
+
+    diff_idle=$((idle - prev_idle))
+    diff_total=$((total - prev_total))
+
+    usage=$(echo "scale=1; 100 * ($diff_total - $diff_idle) / $diff_total" | bc -l)
+    echo "$usage%"
+done
+```
+
+One liner for the above:
+
+```bash title="CPU Usage Every Second One-liner"
+while true; do prev_idle=$(awk '/^cpu /{print $5}' /proc/stat); prev_total=$(awk '/^cpu /{s=0; for(i=2;i<=NF;i++) s+=$i; print s}' /proc/stat); sleep 0.5; idle=$(awk '/^cpu /{print $5}' /proc/stat); total=$(awk '/^cpu /{s=0; for(i=2;i<=NF;i++) s+=$i; print s}' /proc/stat); diff_idle=$((idle - prev_idle)); diff_total=$((total - prev_total)); usage=$(echo "scale=1; 100 * ($diff_total - $diff_idle) / $diff_total" | bc -l); echo "$usage%"; done
+```
+
+### Alternative command to above 
+
+Does the same thing but differently
+
+```bash title="CPU Usage Alternative"
+_STAT_PREV_IDLE=$(awk '/^cpu /{print $5}' /proc/stat)
+prev_total=$(awk '/^cpu /{s=0; for(i=2;i<=NF;i++) s+=$i; print s}' /proc/stat)
+while true
+do
+    sleep 0.5
+    idle=$(awk '/^cpu /{print $5}' /proc/stat)
+    total=$(awk '/^cpu /{s=0; for(i=2;i<=NF;i++) s+=$i; print s}' /proc/stat)
+    diff_idle=$((idle - prev_idle))
+    diff_total=$((total - prev_total))
+    usage=$(echo "scale=1; 100 * ($diff_total - $diff_idle) / $diff_total" | bc -l)
+    echo "CPU Usage: $usage%"
+    prev_idle=$idle
+    prev_total=$total
+done
+```
+
+One liner for the above: 
+
+```bash title="CPU Usage Alternative One-liner"
+_STAT_PREV_IDLE=$(awk '/^cpu /{print $5}' /proc/stat); prev_total=$(awk '/^cpu /{s=0; for(i=2;i<=NF;i++) s+=$i; print s}' /proc/stat); while true; do sleep 0.5; idle=$(awk '/^cpu /{print $5}' /proc/stat); total=$(awk '/^cpu /{s=0; for(i=2;i<=NF;i++) s+=$i; print s}' /proc/stat); diff_idle=$((idle - _STAT_PREV_IDLE)); diff_total=$((total - prev_total)); usage=$(echo "scale=1; 100 * ($diff_total - $diff_idle) / $diff_total" | bc -l); echo "CPU Usage: $usage%"; _STAT_PREV_IDLE=$idle; prev_total=$total; done
+```
+
+---
+-------------------------------------------------------------------------------
+---
+
+## Memory Usage w/ no external tools
+
+```bash title="Memory Usage"
+while true
+do
+    awk '/^MemTotal:/{total=$2}/^MemAvailable:/{avail=$2} END{used=total-avail; usage=(used/total)*100; used_gb=used/1024/1024; printf("RAM Usage: %.2f%%  %.2fGB\n", usage, used_gb)}' /proc/meminfo
+    sleep 0.5
+done
+```
+
+One-liner for the above:
+
+```bash title="Memory Usage One-liner"
+while true; do awk '/^MemTotal:/{total=$2}/^MemAvailable:/{avail=$2} END{used=total-avail; usage=(used/total)*100; used_gb=used/1024/1024; printf("RAM Usage: %.2f%%  %.2fGB\n", usage, used_gb)}' /proc/meminfo; sleep 0.5; done
+```
+
+
+
+
