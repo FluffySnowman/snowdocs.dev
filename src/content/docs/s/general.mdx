@@ -1,0 +1,23 @@
+---
+title: Go
+description: Useful snippets for golang 
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+General dump of snippets for random shit 
+
+## FFmpeg merge system and microphone audio track into a single one 
+
+Useful for screen recordings of video games.
+
+```bash
+ffmpeg -filter_complex amix=inputs=2 -c:v copy -c:a aac outputvid.mp4 -i inputvid.mp4  
+```
+
+Same as above but reduciing file size
+
+```bash
+ffmpeg -filter_complex "amix=inputs=2" -c:v libx264 -crf 28 -preset ultrafast -c:a aac -b:a 128k outputvid.mp4.mp4 -i inputvid.mp4
+```
+
