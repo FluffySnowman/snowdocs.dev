@@ -112,6 +112,25 @@ One-liner for the above:
 while true; do awk '/^MemTotal:/{total=$2}/^MemAvailable:/{avail=$2} END{used=total-avail; usage=(used/total)*100; used_gb=used/1024/1024; printf("RAM Usage: %.2f%%  %.2fGB\n", usage, used_gb)}' /proc/meminfo; sleep 0.5; done
 ```
 
+---
+-------------------------------------------------------------------------------
+---
 
+## Create Network Interface
+
+Easy way to isolate traffic to an interface. Useful for debugging traffic with
+things like wireshark without worrying about all the traffic on `eth0` or
+`wlan0` polluting the capture.
+
+After running this any program should be able to listen / connect on
+`10.0.42.1/24:*` . 
+
+```bash title="Create Interface"
+IF=coolnet0 CIDR=10.0.42.1/24 && ip link add "$IF" type dummy && ip addr add "$CIDR" dev "$IF" && ip link set "$IF" up
+```
+
+```bash title="Delete Interface"
+IF=coolnet0 ip link delete "$IF"
+```
 
 
