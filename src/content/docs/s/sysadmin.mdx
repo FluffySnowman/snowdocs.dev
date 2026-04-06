@@ -133,4 +133,13 @@ IF=coolnet0 CIDR=10.0.42.1/24 && ip link add "$IF" type dummy && ip addr add "$C
 IF=coolnet0 ip link delete "$IF"
 ```
 
+## Nmap quick/clean scan 
+
+Command to print only ips from an nmap scan.
+
+```bash title="Nmap Scan IP Only Print"
+nmap -sn 10.0.0.1/24 -oG - | awk '/Up$/{print $2}'
+```
+
+
 
